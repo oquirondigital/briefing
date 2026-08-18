@@ -252,7 +252,7 @@
     display:flex;
     align-items:center;
     gap:8px;
-    margin-bottom:6px;
+    margin-bottom:8px;
   }
   .attach-block input[type=text]{font-size:13px;}
   .attach-note{
@@ -261,6 +261,57 @@
     gap:6px;
     font-size:11.5px;
     color:var(--text-faint);
+    margin-bottom:10px;
+  }
+  .upload-row{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    flex-wrap:wrap;
+  }
+  .upload-btn{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    font-size:12.5px;
+    border:1px solid var(--line-strong);
+    background:var(--bg);
+    color:var(--text);
+    padding:8px 14px;
+    border-radius:3px;
+    cursor:pointer;
+    transition:.15s ease;
+  }
+  .upload-btn:hover{border-color:var(--text-soft);}
+  .upload-btn input[type=file]{display:none;}
+  .upload-status{font-size:11.5px; color:var(--text-faint);}
+  .thumbs{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    margin-top:10px;
+  }
+  .thumb{
+    position:relative;
+    width:56px; height:56px;
+    border-radius:3px;
+    overflow:hidden;
+    border:1px solid var(--line-strong);
+  }
+  .thumb img{width:100%; height:100%; object-fit:cover; display:block;}
+  .thumb .thumb-remove{
+    position:absolute;
+    top:2px; right:2px;
+    width:16px; height:16px;
+    background:rgba(0,0,0,0.7);
+    color:#fff;
+    border:none;
+    border-radius:50%;
+    font-size:10px;
+    line-height:16px;
+    text-align:center;
+    cursor:pointer;
+    padding:0;
   }
   .options{
     display:flex;
@@ -608,12 +659,30 @@ function renderOptions(field){
 function renderAttachBlock(field, forceVisible){
   const linkVal = state[field.id+'_link'] || '';
   const visible = forceVisible === undefined ? true : forceVisible;
+  const files = state[field.id+'_files'] || [];
   return `<div class="attach-block" id="${field.id}_attachblock" style="${visible?'':'display:none;'}">
     <div class="link-row">
       <input type="text" id="${field.id}_link" placeholder="Cole aqui um link (Google Drive, Instagram, Pinterest...)" value="${linkVal.replace(/"/g,'&quot;')}">
     </div>
-    <div class="attach-note">📎 Ou envie os arquivos/prints direto por WhatsApp — pode citar aqui o que vai mandar</div>
+    <div class="attach-note">📎 Ou envie a imagem direto abaixo</div>
+    <div class="upload-row">
+      <label class="upload-btn">
+        + Enviar imagem
+        <input type="file" accept="image/*" multiple data-upload-for="${field.id}">
+      </label>
+      <span class="upload-status" id="${field.id}_uploadstatus"></span>
+    </div>
+    <div class="thumbs" id="${field.id}_thumbs">${renderThumbs(field.id, files)}</div>
   </div>`;
+}
+
+function renderThumbs(fieldId, files){
+  return files.map((f,i)=>`
+    <div class="thumb">
+      <img src="${f.url}" alt="${(f.name||'').replace(/"/g,'&quot;')}">
+      <button type="button" class="thumb-remove" data-remove-upload="${fieldId}" data-index="${i}">✕</button>
+    </div>
+  `).join('');
 }
 
 function renderField(field){
@@ -737,6 +806,36 @@ function refreshDependents(triggerId){
   });
 }
 
+const CLOUDINARY_CLOUD_NAME = 'iznumamo';
+const CLOUDINARY_UPLOAD_PRESET = 'Briefing';
+
+async function uploadFile(fieldId, file){
+  const statusEl = document.getElementById(fieldId+'_uploadstatus');
+  statusEl.textContent = `Enviando ${file.name}...`;
+  const formData = new FormData();
+  formData.append('file', file);
+  formData.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
+  try{
+    const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`, {
+      method:'POST',
+      body: formData,
+    });
+    const json = await res.json();
+    if(json.secure_url){
+      const files = state[fieldId+'_files'] || [];
+      files.push({url: json.secure_url, name: file.name});
+      state[fieldId+'_files'] = files;
+      save();
+      document.getElementById(fieldId+'_thumbs').innerHTML = renderThumbs(fieldId, files);
+      statusEl.textContent = '';
+    } else {
+      statusEl.textContent = 'Falha ao enviar. Tente novamente.';
+    }
+  } catch(err){
+    statusEl.textContent = 'Falha ao enviar. Tente novamente.';
+  }
+}
+
 function attachEvents(){
   document.querySelectorAll('.tab').forEach(t=>{
     t.addEventListener('click', ()=> switchTab(t.dataset.section));
@@ -752,6 +851,12 @@ function attachEvents(){
 
   document.getElementById('content').addEventListener('change', (e)=>{
     const el = e.target;
+    if(el.type === 'file' && el.dataset.uploadFor){
+      const fieldId = el.dataset.uploadFor;
+      Array.from(el.files).forEach(file=> uploadFile(fieldId, file));
+      el.value = '';
+      return;
+    }
     if(el.type === 'radio'){
       state[el.name] = el.value;
       save();
@@ -774,6 +879,19 @@ function attachEvents(){
       state[fid] = arr;
       save();
       refreshOptionStyles(fid);
+    }
+  });
+
+  document.getElementById('content').addEventListener('click', (e)=>{
+    const btn = e.target.closest('[data-remove-upload]');
+    if(btn){
+      const fieldId = btn.dataset.removeUpload;
+      const idx = parseInt(btn.dataset.index, 10);
+      const files = state[fieldId+'_files'] || [];
+      files.splice(idx, 1);
+      state[fieldId+'_files'] = files;
+      save();
+      document.getElementById(fieldId+'_thumbs').innerHTML = renderThumbs(fieldId, files);
     }
   });
 
@@ -828,6 +946,9 @@ function buildReportLines(){
         lines.push('R: ' + (answer || '(não respondido)'));
         if(f.attach && state[f.id+'_link']){
           lines.push('Link: ' + state[f.id+'_link']);
+        }
+        if(f.attach && state[f.id+'_files'] && state[f.id+'_files'].length){
+          state[f.id+'_files'].forEach(file=> lines.push('Imagem: ' + file.url));
         }
         lines.push('');
       });
