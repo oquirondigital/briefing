@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Briefing — Identidade Visual & Social Media</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#EDE8DE;
+    --card:#FFFDF9;
+    --ink:#241F1C;
+    --ink-soft:#655d56;
+    --ink-faint:#8c8378;
+    --accent:#7A2E2E;
+    --accent-soft:#9c4a45;
+    --sage:#4B5A45;
+    --line:#C9BFA9;
+    --line-soft:#e2dbc9;
+    --stamp:#4B5A45;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--paper);
+    background-image:
+      radial-gradient(circle at 1px 1px, rgba(36,31,28,0.05) 1px, transparent 0);
+    background-size:22px 22px;
+    color:var(--ink);
+    font-family:'IBM Plex Sans', sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .display{font-family:'Fraunces', serif;}
+  .mono{font-family:'IBM Plex Mono', monospace; letter-spacing:.02em;}
+
+  /* ===== COVER ===== */
+  .cover{
+    max-width:920px;
+    margin:0 auto;
+    padding:64px 24px 40px;
+  }
+  .cover-seal{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--accent);
+    border:1px solid var(--accent);
+    padding:5px 12px;
+    border-radius:2px;
+  }
+  .cover h1{
+    font-size:clamp(32px, 5vw, 52px);
+    font-weight:600;
+    line-height:1.05;
+    margin:20px 0 8px;
+    max-width:14ch;
+  }
+  .cover p.sub{
+    color:var(--ink-soft);
+    font-size:16px;
+    max-width:56ch;
+    line-height:1.6;
+    margin:0 0 28px;
+  }
+  .cover-meta{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:16px;
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:3px;
+    padding:20px;
+  }
+  .cover-meta label{
+    display:block;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:.1em;
+    color:var(--ink-faint);
+    margin-bottom:6px;
+  }
+  .cover-meta input{
+    width:100%;
+    border:none;
+    border-bottom:1px solid var(--line);
+    background:transparent;
+    font-family:'Fraunces', serif;
+    font-size:18px;
+    padding:4px 0;
+    color:var(--ink);
+  }
+  .cover-meta input:focus{outline:none; border-bottom-color:var(--accent);}
+
+  /* ===== TABS / NAV ===== */
+  .tabbar-wrap{
+    position:sticky;
+    top:0;
+    z-index:20;
+    background:var(--paper);
+    padding-top:18px;
+    border-bottom:1px solid var(--line);
+  }
+  .tabbar{
+    max-width:920px;
+    margin:0 auto;
+    padding:0 24px;
+    display:flex;
+    gap:2px;
+  }
+  .tab{
+    position:relative;
+    flex:1;
+    background:#e3ddcd;
+    border:1px solid var(--line);
+    border-bottom:none;
+    border-radius:6px 6px 0 0;
+    padding:14px 16px 30px;
+    cursor:pointer;
+    transition:background .15s ease;
+  }
+  .tab:hover{background:#dcd5c1;}
+  .tab.active{background:var(--card);}
+  .tab .tab-num{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    color:var(--ink-faint);
+    display:block;
+    margin-bottom:4px;
+  }
+  .tab .tab-label{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size:17px;
+  }
+  .tab .tab-progress{
+    position:absolute;
+    left:16px; right:16px; bottom:12px;
+    height:3px;
+    background:var(--line-soft);
+    border-radius:2px;
+    overflow:hidden;
+  }
+  .tab .tab-progress > span{
+    display:block;
+    height:100%;
+    background:var(--accent);
+    width:0%;
+    transition:width .25s ease;
+  }
+  .tab .stamp{
+    position:absolute;
+    top:10px; right:12px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:9px;
+    letter-spacing:.08em;
+    color:var(--stamp);
+    border:1.5px solid var(--stamp);
+    padding:2px 6px;
+    border-radius:2px;
+    transform:rotate(-6deg);
+    opacity:0;
+    transition:opacity .2s ease;
+  }
+  .tab.done .stamp{opacity:1;}
+
+  /* ===== CONTENT ===== */
+  .content{max-width:920px; margin:0 auto; padding:36px 24px 120px;}
+  .section{display:none;}
+  .section.active{display:block;}
+  .group{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:3px;
+    padding:28px 28px 8px;
+    margin-bottom:22px;
+  }
+  .group h2{
+    font-family:'Fraunces', serif;
+    font-size:22px;
+    font-weight:600;
+    margin:0 0 4px;
+    display:flex;
+    align-items:baseline;
+    gap:10px;
+  }
+  .group h2 .chapter{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px;
+    color:var(--accent);
+    font-weight:500;
+  }
+  .group .intro{
+    color:var(--ink-soft);
+    font-size:14px;
+    line-height:1.6;
+    margin:0 0 18px;
+    padding-bottom:14px;
+    border-bottom:1px dashed var(--line);
+  }
+  .field{
+    padding:18px 0;
+    border-bottom:1px solid var(--line-soft);
+  }
+  .field:last-child{border-bottom:none;}
+  .field .q{
+    display:flex;
+    gap:10px;
+    font-size:15px;
+    line-height:1.5;
+    margin-bottom:10px;
+  }
+  .field .qnum{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px;
+    color:var(--accent);
+    flex-shrink:0;
+    padding-top:2px;
+  }
+  .field textarea, .field input[type=text]{
+    width:100%;
+    border:1px solid var(--line);
+    border-radius:2px;
+    background:#fbfaf6;
+    font-family:'IBM Plex Sans', sans-serif;
+    font-size:14.5px;
+    padding:10px 12px;
+    color:var(--ink);
+    resize:vertical;
+    min-height:40px;
+  }
+  .field textarea{min-height:76px; line-height:1.5;}
+  .field textarea:focus, .field input[type=text]:focus{
+    outline:none;
+    border-color:var(--accent);
+    background:#fff;
+  }
+  .attach-note{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    margin-top:8px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11.5px;
+    color:var(--sage);
+  }
+  .options{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+  }
+  .opt{
+    display:flex;
+    align-items:center;
+    gap:7px;
+    border:1px solid var(--line);
+    border-radius:2px;
+    padding:7px 12px;
+    font-size:13.5px;
+    cursor:pointer;
+    background:#fbfaf6;
+    transition:.15s ease;
+  }
+  .opt:hover{border-color:var(--accent-soft);}
+  .opt input{accent-color:var(--accent); width:14px; height:14px;}
+  .opt.checked{background:var(--accent); border-color:var(--accent); color:#fff;}
+  .max-note{font-size:11.5px; color:var(--ink-faint); margin-top:8px; font-family:'IBM Plex Mono', monospace;}
+  .other-input{margin-top:10px;}
+
+  .compliance{
+    background:#f3f0e6;
+    border:1px dashed var(--line);
+    border-radius:3px;
+    padding:18px 20px;
+    font-size:13px;
+    line-height:1.6;
+    color:var(--ink-soft);
+    margin-top:6px;
+  }
+  .compliance b{color:var(--ink);}
+
+  /* ===== FOOTER BAR ===== */
+  .footerbar{
+    position:fixed;
+    bottom:0; left:0; right:0;
+    background:var(--ink);
+    color:#f4f1e8;
+    z-index:30;
+    box-shadow:0 -4px 18px rgba(0,0,0,.18);
+  }
+  .footerbar-inner{
+    max-width:920px;
+    margin:0 auto;
+    padding:12px 24px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:16px;
+    flex-wrap:wrap;
+  }
+  .footerbar .status{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11.5px;
+    color:#c9c2b0;
+  }
+  .footerbar .status b{color:#fff;}
+  .btns{display:flex; gap:10px;}
+  .btn{
+    font-family:'IBM Plex Sans', sans-serif;
+    font-size:13.5px;
+    font-weight:500;
+    border:1px solid #6d665c;
+    background:transparent;
+    color:#f4f1e8;
+    padding:9px 16px;
+    border-radius:2px;
+    cursor:pointer;
+    transition:.15s ease;
+  }
+  .btn:hover{border-color:#f4f1e8;}
+  .btn.primary{background:var(--accent-soft); border-color:var(--accent-soft); color:#fff;}
+  .btn.primary:hover{background:var(--accent);}
+
+  @media (max-width:640px){
+    .tab .tab-label{font-size:14px;}
+    .cover-meta{grid-template-columns:1fr;}
+    .group{padding:20px 16px 4px;}
+    .footerbar-inner{justify-content:center; text-align:center;}
+  }
+
+  @media print{
+    .tabbar-wrap, .footerbar, .cover-seal, .attach-note{display:none !important;}
+    .section{display:block !important;}
+    body{background:#fff;}
+    .group{break-inside:avoid; border:none; border-bottom:1px solid #ccc; border-radius:0;}
+  }
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <span class="cover-seal">Oquíron Digital · Processo de Marca</span>
+  <h1 class="display">Briefing de Identidade Visual &amp; Social Media</h1>
+  <p class="sub">Este formulário reúne as informações que vamos usar para construir sua identidade visual e o início do seu Instagram profissional. Responda com calma — quanto mais detalhes, mais fiel o resultado fica à sua forma de trabalhar. Suas respostas ficam salvas automaticamente neste navegador enquanto você preenche.</p>
+  <div class="cover-meta">
+    <div>
+      <label>Nome da cliente</label>
+      <input type="text" id="meta_nome" placeholder="Nome completo">
+    </div>
+    <div>
+      <label>Escritório / marca</label>
+      <input type="text" id="meta_escritorio" placeholder="Nome do escritório, se houver">
+    </div>
+  </div>
+</div>
+
+<div class="tabbar-wrap">
+  <div class="tabbar" id="tabbar"></div>
+</div>
+
+<div class="content" id="content"></div>
+
+<div class="footerbar">
+  <div class="footerbar-inner">
+    <div class="status"><b id="statusPct">0%</b> preenchido · respostas salvas neste dispositivo</div>
+    <div class="btns">
+      <button class="btn" id="btnPrint">Imprimir / salvar PDF</button>
+      <button class="btn primary" id="btnExport">Baixar respostas (.txt)</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const STORAGE_KEY = 'oquiron_briefing_advogada_v1';
+
+const sections = [
+  {
+    id:'visual', label:'Identidade Visual', num:'01',
+    groups:[
+      {title:'Sobre o negócio', chapter:'CAP. I', fields:[
+        {id:'v1', type:'short', q:'Nome da empresa'},
+        {id:'v2', type:'long', q:'O que o nome significa?'},
+        {id:'v3', type:'long', q:'Como surgiu a empresa/marca?'},
+        {id:'v4', type:'long', q:'O que a empresa faz? Explique, com suas palavras, o que sua empresa faz, quais produtos/serviços oferece e para quem.'},
+        {id:'v5', type:'long', q:'Quais são os principais produtos ou serviços?'},
+      ]},
+      {title:'Posicionamento', chapter:'CAP. II', fields:[
+        {id:'v6', type:'long', q:'Por que sua empresa existe?'},
+        {id:'v7', type:'long', q:'Qual problema sua empresa resolve?'},
+        {id:'v8', type:'long', q:'O que diferencia sua empresa dos concorrentes?'},
+        {id:'v9', type:'long', q:'Por que um cliente deveria escolher sua empresa em vez de outra?'},
+        {id:'v10', type:'checkbox', max:5, q:'Quais são os 3 principais atributos que você gostaria que sua marca transmitisse? Selecione até 5 opções.', options:['Profissional','Sofisticada','Moderna','Tradicional','Inovadora','Confiável','Acessível','Exclusiva','Técnica','Criativa','Minimalista','Forte','Humana','Elegante'], other:true},
+      ]},
+      {title:'Público', chapter:'CAP. III', fields:[
+        {id:'v11', type:'long', q:'Quem é o principal cliente da empresa e qual é a faixa etária dele?'},
+        {id:'v12', type:'long', q:'O que seu cliente mais valoriza ao escolher uma empresa como a sua?'},
+        {id:'v13', type:'long', q:'Existe algum público que você NÃO deseja atrair?'},
+      ]},
+      {title:'Direção visual', chapter:'CAP. IV', fields:[
+        {id:'v14', type:'long', q:'A empresa possui alguma identidade visual anterior? Se sim, o que gostaria de manter e o que gostaria de mudar?', attach:true},
+        {id:'v15', type:'long', q:'Existe alguma cor que você gostaria de considerar? Por quê?'},
+        {id:'v16', type:'long', q:'Existe alguma cor, estilo ou elemento visual que você gostaria de evitar?'},
+        {id:'v17', type:'long', q:'Existe algum símbolo, elemento ou conceito que você gostaria que fosse considerado? Se sim, por que esse elemento é importante para você?'},
+        {id:'v18', type:'long', q:'Insira de 3 a 5 referências visuais que você gosta.', attach:true},
+        {id:'v19', type:'long', q:'O que você gosta em cada referência? Ex.: cores, tipografia, símbolo, simplicidade, composição, sensação transmitida, estilo, etc.'},
+        {id:'v20', type:'long', q:'Existe alguma identidade visual que você NÃO gosta? Por quê? Insira de 3 a 5 exemplos.', attach:true},
+        {id:'v21', type:'radio', q:'Existe alguma preferência em relação à composição da marca?', options:['Prefiro uma marca predominantemente tipográfica (apenas escrita)','Gostaria de ter nome + símbolo','Gostaria de uma marca predominantemente simbólica (apenas símbolo)','Não tenho preferência e gostaria que essa decisão fosse definida no projeto']},
+        {id:'v22', type:'long', q:'Se sua marca fosse uma pessoa, como ela seria? Descreva de 3 a 5 características.'},
+      ]},
+      {title:'Aplicação da identidade', chapter:'CAP. V', fields:[
+        {id:'v23', type:'checkbox', q:'Onde a Identidade Visual será aplicada?', options:['Instagram','Site','WhatsApp','Cartão de visita','Papelaria','Uniforme','Fachada','Placa','Embalagem','Veículos','Material impresso','Apresentações','Documentos'], other:true},
+      ]},
+      {title:'Concorrência', chapter:'CAP. VI', fields:[
+        {id:'v24', type:'long', q:'Quais são seus principais concorrentes?'},
+        {id:'v25', type:'long', q:'Existe algum concorrente cuja identidade visual você considera interessante? Por quê?'},
+        {id:'v26', type:'long', q:'Como você gostaria que sua marca se diferenciasse visualmente dos concorrentes?'},
+      ]},
+    ]
+  },
+  {
+    id:'social', label:'Social Media', num:'02',
+    groups:[
+      {title:'Sobre sua atuação profissional', chapter:'CAP. I', fields:[
+        {id:'s1', type:'short', q:'Qual é seu nome profissional completo?'},
+        {id:'s2', type:'short', q:'Qual é o seu número de inscrição na OAB e seccional?'},
+        {id:'s3', type:'short', q:'Há quanto tempo você atua na advocacia?'},
+        {id:'s4', type:'long', q:'Conte brevemente sobre sua trajetória profissional (formação, experiências anteriores, áreas em que já atuou, especializações, pós-graduações, cursos, experiências que contribuíram para sua atuação atual).'},
+        {id:'s5', type:'long', q:'Quais são suas principais áreas de atuação jurídica? Liste todas as áreas em que você efetivamente atua.'},
+        {id:'s6', type:'long', q:'Dentro dessas áreas, existem temas ou tipos de demandas que aparecem com maior frequência no seu trabalho?'},
+        {id:'s7', type:'long', q:'Existe alguma área em que você deseja concentrar mais sua comunicação no Instagram?'},
+        {id:'s8', type:'long', q:'Existe alguma área jurídica que você NÃO deseja divulgar ou trabalhar na comunicação?'},
+      ]},
+      {title:'Objetivo do Instagram', chapter:'CAP. II', fields:[
+        {id:'s9', type:'radio', q:'Qual é o principal objetivo de estar presente no Instagram neste momento?', options:['Construir autoridade profissional','Tornar meu trabalho mais conhecido','Educar e informar sobre temas jurídicos','Fortalecer minha marca pessoal','Aproximar-me do público','Criar presença digital profissional','Ser encontrada por pessoas que pesquisam sobre minha área'], other:true},
+        {id:'s10', type:'long', q:'Existe alguma meta ou resultado que você espera alcançar com a presença digital?'},
+      ]},
+      {title:'Público', chapter:'CAP. III', fields:[
+        {id:'s11', type:'long', q:'Quem você deseja alcançar por meio do Instagram? Descreva da forma mais específica possível (idade aproximada, localização, profissão, momento de vida, perfil econômico, necessidades, principais dúvidas, situações que costumam levá-lo a buscar orientação jurídica).'},
+        {id:'s12', type:'short', q:'Você atende principalmente pessoas físicas, empresas ou ambos?'},
+        {id:'s13', type:'long', q:'Existe algum público específico que você deseja fortalecer na sua atuação?'},
+        {id:'s14', type:'long', q:'Quais são as principais dúvidas, preocupações ou situações que esse público costuma ter relacionadas ao Direito?'},
+        {id:'s15', type:'long', q:'O que normalmente faz uma pessoa perceber que precisa procurar orientação jurídica?'},
+      ]},
+      {title:'Comunicação', chapter:'CAP. IV', fields:[
+        {id:'s16', type:'checkbox', q:'Como você gostaria que fosse sua comunicação no Instagram? Selecione as características que mais combinam com você.', options:['Técnica','Didática','Formal','Objetiva','Acessível','Elegante','Próxima','Institucional','Humana','Séria','Contemporânea','Conversacional'], other:true},
+        {id:'s17', type:'long', q:'Existe algum tipo de comunicação que você NÃO gostaria de utilizar? Ex.: linguagem excessivamente informal, humor, conteúdos muito pessoais, linguagem muito técnica etc.'},
+      ]},
+      {title:'Referências', chapter:'CAP. V', fields:[
+        {id:'s18', type:'long', q:'Existem perfis de advogados, escritórios ou outras marcas cuja comunicação você admira? Envie de 3 a 5 perfis.', attach:true},
+        {id:'s19', type:'long', q:'O que você gosta nesses perfis? (linguagem, estética, forma de explicar, posicionamento, fotografia, vídeos, temas, frequência, proximidade com o público)'},
+        {id:'s20', type:'long', q:'Existe algum perfil cuja comunicação você NÃO gosta? Envie os perfis e explique o que gostaria de evitar.', attach:true},
+        {id:'s21', type:'long', q:'Existe algum tipo de conteúdo que você não gostaria de publicar?'},
+      ]},
+      {title:'Os 9 primeiros posts', chapter:'CAP. VI', intro:'Como este será o início do Instagram, queremos construir uma primeira sequência de conteúdos que apresente sua atuação e estabeleça uma base profissional para o perfil.', fields:[
+        {id:'s22', type:'long', q:'O que você gostaria que uma pessoa entendesse sobre você ao entrar no seu Instagram pela primeira vez?'},
+        {id:'s23', type:'long', q:'Quais informações sobre sua trajetória profissional você considera importantes para apresentar ao público?'},
+        {id:'s24', type:'long', q:'Quais são os principais assuntos jurídicos que você gostaria que aparecessem nos primeiros conteúdos? Liste até 5.'},
+        {id:'s25', type:'long', q:'Quais são as perguntas que você mais recebe de clientes ou pessoas próximas sobre sua área de atuação? Liste pelo menos 5, se possível.'},
+        {id:'s26', type:'long', q:'Quais erros, dúvidas ou interpretações equivocadas você percebe com frequência entre pessoas que precisam de orientação jurídica?'},
+        {id:'s27', type:'long', q:'Existe algum tema que você considera importante explicar ao público, mesmo que as pessoas ainda não saibam que precisam dessa informação?'},
+        {id:'s28', type:'long', q:'Existe algum assunto que você considera especialmente relevante para o momento atual da sua atuação?'},
+        {id:'s29', type:'long', q:'Você possui fotos profissionais que podem ser utilizadas nos primeiros conteúdos?', attach:true},
+        {id:'s30', type:'long', q:'Você possui registros profissionais que podem ser utilizados? Ex.: eventos, palestras, certificados, escritório, rotina profissional, estudos etc.', attach:true},
+        {id:'s31', type:'long', q:'Existe algum conteúdo ou informação sobre sua trajetória que você NÃO autoriza a publicação?'},
+        {id:'s32', type:'long', q:'Existe alguma percepção equivocada sobre sua área de atuação que você gostaria de ajudar a esclarecer por meio do conteúdo?'},
+        {id:'s33', type:'long', q:'Existe algum assunto relacionado à sua profissão que você gostaria de abordar com mais frequência?'},
+      ]},
+      {title:'Informações para o perfil', chapter:'CAP. VII', fields:[
+        {id:'s34', type:'short', q:'Qual telefone profissional deve ser disponibilizado no perfil?'},
+        {id:'s35', type:'short', q:'Qual e-mail profissional deve ser utilizado?'},
+        {id:'s36', type:'short', q:'Você possui endereço profissional que deseja divulgar?'},
+        {id:'s37', type:'long', q:'Existe alguma informação profissional que você considera indispensável na apresentação do perfil?'},
+      ]},
+      {title:'Observações', chapter:'CAP. VIII', fields:[
+        {id:'s38', type:'long', q:'Existe alguma informação que você considera importante para entendermos seu trabalho e que não foi perguntada neste briefing?'},
+        {id:'s39', type:'long', q:'Existe alguma preocupação, restrição ou orientação específica que gostaria de deixar para a produção dos conteúdos?'},
+        {id:'s_compliance', type:'compliance', q:'Os conteúdos serão desenvolvidos considerando as normas aplicáveis à publicidade profissional da advocacia. O conteúdo jurídico manterá caráter informativo, com linguagem ética, discreta e sóbria, evitando promessas de resultados, estímulo à contratação, captação indevida de clientela e exposição inadequada de casos concretos. A OAB admite presença em redes sociais e conteúdo jurídico, desde que respeitados esses limites.'},
+      ]},
+    ]
+  }
+];
+
+let state = {};
+try{ state = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; }catch(e){ state = {}; }
+
+function save(){
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  updateProgress();
+}
+
+function fieldNumber(fid){
+  return fid.replace(/^v/,'').replace(/^s/,'');
+}
+
+function renderOptions(field){
+  const val = state[field.id] || (field.type==='checkbox' ? [] : '');
+  let html = `<div class="options" data-field="${field.id}">`;
+  field.options.forEach((opt,i)=>{
+    const inputType = field.type === 'radio' ? 'radio' : 'checkbox';
+    const name = field.type === 'radio' ? field.id : field.id+'_'+i;
+    const checked = field.type==='radio' ? (val===opt) : (Array.isArray(val) && val.includes(opt));
+    html += `<label class="opt${checked?' checked':''}">
+      <input type="${inputType}" name="${field.id}" value="${opt.replace(/"/g,'&quot;')}" ${checked?'checked':''}>
+      <span>${opt}</span>
+    </label>`;
+  });
+  html += `</div>`;
+  if(field.max){
+    html += `<div class="max-note">Selecione até ${field.max} opções</div>`;
+  }
+  if(field.other){
+    const otherVal = state[field.id+'_other'] || '';
+    html += `<div class="other-input"><input type="text" id="${field.id}_other" placeholder="Outra — especifique" value="${otherVal.replace(/"/g,'&quot;')}"></div>`;
+  }
+  return html;
+}
+
+function renderField(field){
+  if(field.type === 'compliance'){
+    return `<div class="compliance"><b>Sobre publicidade jurídica (OAB):</b> ${field.q}</div>`;
+  }
+  const num = fieldNumber(field.id);
+  let inner = '';
+  if(field.type === 'short'){
+    const v = state[field.id] || '';
+    inner = `<input type="text" id="${field.id}" value="${v.replace(/"/g,'&quot;')}">`;
+  } else if(field.type === 'long'){
+    const v = state[field.id] || '';
+    inner = `<textarea id="${field.id}">${v}</textarea>`;
+  } else if(field.type === 'checkbox' || field.type === 'radio'){
+    inner = renderOptions(field);
+  }
+  const attach = field.attach ? `<div class="attach-note">📎 Envie as imagens/prints separadamente por WhatsApp ou e-mail — pode descrever aqui o que vai enviar</div>` : '';
+  return `<div class="field">
+    <div class="q"><span class="qnum mono">${num}.</span><span>${field.q}</span></div>
+    ${inner}
+    ${attach}
+  </div>`;
+}
+
+function renderSection(section){
+  let html = '';
+  section.groups.forEach(group=>{
+    html += `<div class="group">
+      <h2>${group.title} <span class="chapter mono">${group.chapter}</span></h2>
+      ${group.intro ? `<p class="intro">${group.intro}</p>` : ''}
+      ${group.fields.map(renderField).join('')}
+    </div>`;
+  });
+  return html;
+}
+
+function buildTabs(){
+  const tabbar = document.getElementById('tabbar');
+  tabbar.innerHTML = sections.map(s=>`
+    <div class="tab" data-section="${s.id}">
+      <span class="stamp mono">OK</span>
+      <span class="tab-num mono">Dossiê ${s.num}</span>
+      <span class="tab-label">${s.label}</span>
+      <div class="tab-progress"><span></span></div>
+    </div>
+  `).join('');
+}
+
+function buildContent(){
+  const content = document.getElementById('content');
+  content.innerHTML = sections.map(s=>`<div class="section" id="sec_${s.id}">${renderSection(s)}</div>`).join('');
+}
+
+function allFieldIds(){
+  let ids = [];
+  sections.forEach(s=> s.groups.forEach(g=> g.fields.forEach(f=>{ if(f.type!=='compliance') ids.push({id:f.id, type:f.type, sectionId:s.id}); })));
+  return ids;
+}
+
+function isFilled(f){
+  const v = state[f.id];
+  if(f.type === 'checkbox') return Array.isArray(v) && v.length>0;
+  if(!v) return false;
+  return String(v).trim().length>0;
+}
+
+function updateProgress(){
+  const ids = allFieldIds();
+  let total=0, filled=0;
+  const bySection = {};
+  sections.forEach(s=> bySection[s.id] = {total:0, filled:0});
+  ids.forEach(f=>{
+    total++;
+    bySection[f.sectionId].total++;
+    if(isFilled(f)){ filled++; bySection[f.sectionId].filled++; }
+  });
+  const pct = total ? Math.round(filled/total*100) : 0;
+  document.getElementById('statusPct').textContent = pct + '%';
+
+  document.querySelectorAll('.tab').forEach(tab=>{
+    const sid = tab.dataset.section;
+    const sp = bySection[sid];
+    const p = sp.total ? Math.round(sp.filled/sp.total*100) : 0;
+    tab.querySelector('.tab-progress > span').style.width = p+'%';
+    tab.classList.toggle('done', p===100);
+  });
+}
+
+function switchTab(id){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active', t.dataset.section===id));
+  document.querySelectorAll('.section').forEach(s=>s.classList.toggle('active', s.id==='sec_'+id));
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function attachEvents(){
+  document.querySelectorAll('.tab').forEach(t=>{
+    t.addEventListener('click', ()=> switchTab(t.dataset.section));
+  });
+
+  document.getElementById('content').addEventListener('input', (e)=>{
+    const el = e.target;
+    if(el.tagName === 'TEXTAREA' || (el.tagName==='INPUT' && el.type==='text')){
+      state[el.id] = el.value;
+      save();
+    }
+  });
+
+  document.getElementById('content').addEventListener('change', (e)=>{
+    const el = e.target;
+    if(el.type === 'radio'){
+      state[el.name] = el.value;
+      save();
+      refreshOptionStyles(el.name);
+    } else if(el.type === 'checkbox'){
+      const fieldWrap = el.closest('[data-field]');
+      const fid = fieldWrap.dataset.field;
+      const fieldDef = allFieldsFlat().find(f=>f.id===fid);
+      let arr = Array.isArray(state[fid]) ? state[fid].slice() : [];
+      if(el.checked){
+        if(fieldDef.max && arr.length >= fieldDef.max){
+          el.checked = false;
+          return;
+        }
+        arr.push(el.value);
+      } else {
+        arr = arr.filter(v=>v!==el.value);
+      }
+      state[fid] = arr;
+      save();
+      refreshOptionStyles(fid);
+    }
+  });
+
+  ['meta_nome','meta_escritorio'].forEach(id=>{
+    const el = document.getElementById(id);
+    el.value = state[id] || '';
+    el.addEventListener('input', ()=>{ state[id]=el.value; save(); });
+  });
+
+  document.getElementById('btnExport').addEventListener('click', exportTxt);
+  document.getElementById('btnPrint').addEventListener('click', ()=> window.print());
+}
+
+function allFieldsFlat(){
+  let out = [];
+  sections.forEach(s=> s.groups.forEach(g=> out = out.concat(g.fields)));
+  return out;
+}
+
+function refreshOptionStyles(fid){
+  document.querySelectorAll(`[data-field="${fid}"] .opt`).forEach(opt=>{
+    const input = opt.querySelector('input');
+    opt.classList.toggle('checked', input.checked);
+  });
+}
+
+function exportTxt(){
+  const nome = state.meta_nome || 'Cliente';
+  let lines = [];
+  lines.push('BRIEFING — IDENTIDADE VISUAL & SOCIAL MEDIA');
+  lines.push('Oquíron Digital');
+  lines.push('Cliente: ' + (state.meta_nome||'—'));
+  lines.push('Escritório: ' + (state.meta_escritorio||'—'));
+  lines.push('Data de exportação: ' + new Date().toLocaleDateString('pt-BR'));
+  lines.push('='.repeat(60));
+
+  sections.forEach(s=>{
+    lines.push('');
+    lines.push(`## DOSSIÊ ${s.num} — ${s.label.toUpperCase()}`);
+    s.groups.forEach(g=>{
+      lines.push('');
+      lines.push(`--- ${g.title} ---`);
+      g.fields.forEach(f=>{
+        if(f.type === 'compliance') return;
+        const num = fieldNumber(f.id);
+        lines.push(`${num}. ${f.q}`);
+        let answer = '';
+        if(f.type === 'checkbox'){
+          const arr = state[f.id] || [];
+          answer = arr.join('; ');
+          if(state[f.id+'_other']) answer += (answer?'; ':'') + 'Outra: ' + state[f.id+'_other'];
+        } else if(f.type === 'radio'){
+          answer = state[f.id] || '';
+          if(state[f.id+'_other']) answer += (answer?' — ':'') + 'Outro: ' + state[f.id+'_other'];
+        } else {
+          answer = state[f.id] || '';
+        }
+        lines.push('R: ' + (answer || '(não respondido)'));
+        lines.push('');
+      });
+    });
+  });
+
+  const blob = new Blob([lines.join('\n')], {type:'text/plain;charset=utf-8'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `Briefing - ${nome}.txt`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+buildTabs();
+buildContent();
+attachEvents();
+switchTab('visual');
+updateProgress();
+</script>
+</body>
+</html>
