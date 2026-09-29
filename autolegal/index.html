@@ -333,6 +333,7 @@
   .opt:hover{border-color:var(--text-soft);}
   .opt input{accent-color:var(--white); width:14px; height:14px;}
   .opt.checked{background:var(--white); border-color:var(--white); color:#0E0E0D;}
+  .opt.checked input{accent-color:var(--bg);}
   .max-note{font-size:11px; color:var(--text-faint); margin-top:8px;}
   .other-input{margin-top:10px;}
 
@@ -470,7 +471,7 @@
 
 <div class="footerbar">
   <div class="footerbar-inner">
-    <div class="status" id="statusLine"><b id="statusPct">0%</b> preenchido · respostas salvas neste dispositivo</div>
+    <div class="status" id="statusLine"><b id="statusPct">0%</b> <span id="statusText">preenchido · respostas salvas neste dispositivo</span></div>
     <div class="btns">
       <button class="btn primary" id="btnSubmit" disabled>Enviar respostas</button>
     </div>
@@ -485,6 +486,7 @@
 
 <script>
 const STORAGE_KEY = 'oquiron_briefing_autolegal_v1';
+const SUBMIT_THRESHOLD_PCT = 50;
 
 const ARROW_SVG = `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 20L20 4M20 4H8M20 4V16" stroke="white" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
 
@@ -786,14 +788,13 @@ function updateProgress(){
 
   const btn = document.getElementById('btnSubmit');
   const statusLine = document.getElementById('statusLine');
-  const complete = pct === 100;
+  const statusText = document.getElementById('statusText');
+  const complete = pct >= SUBMIT_THRESHOLD_PCT;
   btn.disabled = !complete;
   statusLine.classList.toggle('incomplete', !complete);
-  if(complete){
-    statusLine.innerHTML = `<b>100%</b> preenchido · pronto para enviar`;
-  } else {
-    statusLine.innerHTML = `<b>${pct}%</b> preenchido · responda as 3 abas (Identidade Visual, Social Media e Site) para liberar o envio`;
-  }
+  statusText.textContent = complete
+    ? 'preenchido · pronto para enviar'
+    : `preenchido · responda pelo menos ${SUBMIT_THRESHOLD_PCT}% para liberar o envio`;
 }
 
 function switchTab(id){
