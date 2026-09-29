@@ -404,6 +404,10 @@
   .btn.primary{background:var(--bg); color:var(--white);}
   .btn.primary:hover{background:#2a2a28;}
   .btn:disabled{opacity:.5; cursor:default;}
+  .btn:disabled:hover{background:inherit;}
+  .btn.primary:disabled{background:var(--bg); color:var(--white);}
+  .btn.primary:disabled:hover{background:var(--bg);}
+  .footerbar .status.incomplete{color:#c0392b;}
 
   .toast{
     position:fixed;
@@ -470,9 +474,9 @@
 
 <div class="footerbar">
   <div class="footerbar-inner">
-    <div class="status"><b id="statusPct">0%</b> preenchido · respostas salvas neste dispositivo</div>
+    <div class="status" id="statusLine"><b id="statusPct">0%</b> preenchido · respostas salvas neste dispositivo</div>
     <div class="btns">
-      <button class="btn primary" id="btnSubmit">Enviar respostas</button>
+      <button class="btn primary" id="btnSubmit" disabled>Enviar respostas</button>
     </div>
   </div>
   <div class="fallback" id="fallback">
@@ -784,6 +788,17 @@ function updateProgress(){
     tab.querySelector('.tab-progress > span').style.width = p+'%';
     tab.classList.toggle('done', p===100);
   });
+
+  const btn = document.getElementById('btnSubmit');
+  const statusLine = document.getElementById('statusLine');
+  const complete = pct === 100;
+  btn.disabled = !complete;
+  statusLine.classList.toggle('incomplete', !complete);
+  if(complete){
+    statusLine.innerHTML = `<b>100%</b> preenchido · pronto para enviar`;
+  } else {
+    statusLine.innerHTML = `<b>${pct}%</b> preenchido · responda as 3 abas (Identidade Visual, Social Media e Site) para liberar o envio`;
+  }
 }
 
 function switchTab(id){
