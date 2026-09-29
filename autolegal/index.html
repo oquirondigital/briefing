@@ -78,7 +78,7 @@
   }
   .cover-meta{
     display:grid;
-    grid-template-columns:1fr 1fr;
+    grid-template-columns:1fr;
     gap:16px;
     background:var(--surface);
     border:1px solid var(--line);
@@ -459,10 +459,6 @@
       <label>Nome do cliente</label>
       <input type="text" id="meta_nome" placeholder="Nome completo">
     </div>
-    <div>
-      <label>Escritório / marca</label>
-      <input type="text" id="meta_escritorio" placeholder="Nome do escritório, se houver">
-    </div>
   </div>
 </div>
 
@@ -539,60 +535,59 @@ const sections = [
   {
     id:'social', label:'Social Media', num:'02',
     groups:[
-      {title:'Sobre sua atuação profissional', chapter:'Cap. I', fields:[
-        {id:'s1', type:'short', q:'Qual é seu nome profissional completo?'},
-        {id:'s2', type:'short', q:'Qual é o CNPJ da empresa (se houver)?'},
-        {id:'s3', type:'short', q:'Há quanto tempo você atua com regularização de veículos antigos/clássicos?'},
-        {id:'s4', type:'long', q:'Conte brevemente sobre sua trajetória profissional (formação, experiências anteriores, cursos, certificações, experiências que contribuíram para sua atuação atual).'},
-        {id:'s5', type:'long', q:'Quais são seus principais serviços? Liste todos os serviços que você efetivamente oferece (ex: emplacamento, regularização documental, transferência, baixa, vistoria, importação, etc.).'},
-        {id:'s6', type:'long', q:'Dentro desses serviços, existem demandas ou tipos de veículos que aparecem com maior frequência no seu trabalho?'},
-        {id:'s7', type:'long', q:'Existe algum serviço em que você deseja concentrar mais sua comunicação no Instagram?'},
-        {id:'s8', type:'long', q:'Existe algum serviço que você NÃO deseja divulgar ou trabalhar na comunicação?'},
+      {title:'Sobre a atuação da empresa', chapter:'Cap. I', fields:[
+        {id:'s1', type:'short', q:'Qual é o CNPJ da empresa (se houver)?'},
+        {id:'s2', type:'short', q:'Há quanto tempo você atua com regularização de veículos antigos/clássicos?'},
+        {id:'s3', type:'long', q:'Conte brevemente sobre sua trajetória profissional (formação, experiências anteriores, cursos, certificações, experiências que contribuíram para sua atuação atual).'},
+        {id:'s4', type:'long', q:'Quais são seus principais serviços? Liste todos os serviços que você efetivamente oferece (ex: emplacamento, regularização documental, transferência, baixa, vistoria, importação, etc.).'},
+        {id:'s5', type:'long', q:'Dentro desses serviços, existem demandas ou tipos de veículos que aparecem com maior frequência no seu trabalho?'},
+        {id:'s6', type:'long', q:'Existe algum serviço em que você deseja concentrar mais sua comunicação no Instagram?'},
+        {id:'s7', type:'long', q:'Existe algum serviço que você NÃO deseja divulgar ou trabalhar na comunicação?'},
       ]},
       {title:'Objetivo do Instagram', chapter:'Cap. II', fields:[
-        {id:'s9', type:'radio', q:'Qual é o principal objetivo de estar presente no Instagram neste momento?', options:['Construir autoridade profissional','Tornar meu trabalho mais conhecido','Educar e informar sobre regularização de veículos','Fortalecer minha marca pessoal','Aproximar-me do público','Criar presença digital profissional','Ser encontrado por pessoas que pesquisam sobre esse serviço'], other:true},
-        {id:'s10', type:'long', q:'Existe alguma meta ou resultado que você espera alcançar com a presença digital?'},
+        {id:'s8', type:'radio', q:'Qual é o principal objetivo de estar presente no Instagram neste momento?', options:['Construir autoridade profissional','Tornar meu trabalho mais conhecido','Educar e informar sobre regularização de veículos','Fortalecer minha marca pessoal','Aproximar-me do público','Criar presença digital profissional','Ser encontrado por pessoas que pesquisam sobre esse serviço'], other:true},
+        {id:'s9', type:'long', q:'Existe alguma meta ou resultado que você espera alcançar com a presença digital?'},
       ]},
       {title:'Público', chapter:'Cap. III', fields:[
-        {id:'s11', type:'long', q:'Quem você deseja alcançar por meio do Instagram? Descreva da forma mais específica possível (idade aproximada, localização, profissão, momento de vida, perfil econômico, necessidades, principais dúvidas, situações que costumam levá-lo a buscar esse tipo de serviço).'},
-        {id:'s12', type:'short', q:'Você atende principalmente pessoas físicas, empresas ou ambos?'},
-        {id:'s13', type:'long', q:'Existe algum público específico que você deseja fortalecer na sua atuação?'},
-        {id:'s14', type:'long', q:'Quais são as principais dúvidas, preocupações ou situações que esse público costuma ter relacionadas à regularização de veículos?'},
-        {id:'s15', type:'long', q:'O que normalmente faz uma pessoa perceber que precisa regularizar o veículo?'},
+        {id:'s10', type:'long', q:'Quem você deseja alcançar por meio do Instagram? Descreva da forma mais específica possível (idade aproximada, localização, profissão, momento de vida, perfil econômico, necessidades, principais dúvidas, situações que costumam levá-lo a buscar esse tipo de serviço).'},
+        {id:'s11', type:'short', q:'Você atende principalmente pessoas físicas, empresas ou ambos?'},
+        {id:'s12', type:'long', q:'Existe algum público específico que você deseja fortalecer na sua atuação?'},
+        {id:'s13', type:'long', q:'Quais são as principais dúvidas, preocupações ou situações que esse público costuma ter relacionadas à regularização de veículos?'},
+        {id:'s14', type:'long', q:'O que normalmente faz uma pessoa perceber que precisa regularizar o veículo?'},
       ]},
       {title:'Comunicação', chapter:'Cap. IV', fields:[
-        {id:'s16', type:'checkbox', q:'Como você gostaria que fosse sua comunicação no Instagram? Selecione as características que mais combinam com você.', options:['Técnica','Didática','Formal','Objetiva','Acessível','Elegante','Próxima','Institucional','Humana','Séria','Contemporânea','Conversacional'], other:true},
-        {id:'s17', type:'long', q:'Existe algum tipo de comunicação que você NÃO gostaria de utilizar? Ex.: linguagem excessivamente informal, humor, conteúdos muito pessoais, linguagem muito técnica etc.'},
+        {id:'s15', type:'checkbox', q:'Como você gostaria que fosse sua comunicação no Instagram? Selecione as características que mais combinam com você.', options:['Técnica','Didática','Formal','Objetiva','Acessível','Elegante','Próxima','Institucional','Humana','Séria','Contemporânea','Conversacional'], other:true},
+        {id:'s16', type:'long', q:'Existe algum tipo de comunicação que você NÃO gostaria de utilizar? Ex.: linguagem excessivamente informal, humor, conteúdos muito pessoais, linguagem muito técnica etc.'},
       ]},
       {title:'Referências', chapter:'Cap. V', fields:[
-        {id:'s18', type:'long', q:'Existem perfis de empresas do seu segmento, despachantes ou outras marcas cuja comunicação você admira? Envie de 3 a 5 perfis.', attach:true},
-        {id:'s19', type:'long', q:'O que você gosta nesses perfis? (linguagem, estética, forma de explicar, posicionamento, fotografia, vídeos, temas, frequência, proximidade com o público)'},
-        {id:'s20', type:'long', q:'Existe algum perfil cuja comunicação você NÃO gosta? Envie os perfis e explique o que gostaria de evitar.', attach:true},
-        {id:'s21', type:'long', q:'Existe algum tipo de conteúdo que você não gostaria de publicar?'},
+        {id:'s17', type:'long', q:'Existem perfis de empresas do seu segmento, despachantes ou outras marcas cuja comunicação você admira? Envie de 3 a 5 perfis.', attach:true},
+        {id:'s18', type:'long', q:'O que você gosta nesses perfis? (linguagem, estética, forma de explicar, posicionamento, fotografia, vídeos, temas, frequência, proximidade com o público)'},
+        {id:'s19', type:'long', q:'Existe algum perfil cuja comunicação você NÃO gosta? Envie os perfis e explique o que gostaria de evitar.', attach:true},
+        {id:'s20', type:'long', q:'Existe algum tipo de conteúdo que você não gostaria de publicar?'},
       ]},
       {title:'Os 9 primeiros posts', chapter:'Cap. VI', intro:'Como este será o início do Instagram, queremos construir uma primeira sequência de conteúdos que apresente sua atuação e estabeleça uma base profissional para o perfil.', fields:[
-        {id:'s22', type:'long', q:'O que você gostaria que uma pessoa entendesse sobre você ao entrar no seu Instagram pela primeira vez?'},
-        {id:'s23', type:'long', q:'Quais informações sobre sua trajetória profissional você considera importantes para apresentar ao público?'},
-        {id:'s24', type:'long', q:'Quais são os principais assuntos sobre regularização de veículos que você gostaria que aparecessem nos primeiros conteúdos? Liste até 5.'},
-        {id:'s25', type:'long', q:'Quais são as perguntas que você mais recebe de clientes ou pessoas próximas sobre sua área de atuação? Liste pelo menos 5, se possível.'},
-        {id:'s26', type:'long', q:'Quais erros, dúvidas ou interpretações equivocadas você percebe com frequência entre pessoas que precisam regularizar um veículo?'},
-        {id:'s27', type:'long', q:'Existe algum tema que você considera importante explicar ao público, mesmo que as pessoas ainda não saibam que precisam dessa informação?'},
-        {id:'s28', type:'long', q:'Existe algum assunto que você considera especialmente relevante para o momento atual da sua atuação?'},
-        {id:'s29', type:'long', q:'Você possui fotos profissionais que podem ser utilizadas nos primeiros conteúdos?', attach:true},
-        {id:'s30', type:'long', q:'Você possui registros profissionais que podem ser utilizados? Ex.: eventos, palestras, certificados, escritório, rotina profissional, estudos etc.', attach:true},
-        {id:'s31', type:'long', q:'Existe algum conteúdo ou informação sobre sua trajetória que você NÃO autoriza a publicação?'},
-        {id:'s32', type:'long', q:'Existe alguma percepção equivocada sobre sua área de atuação que você gostaria de ajudar a esclarecer por meio do conteúdo?'},
-        {id:'s33', type:'long', q:'Existe algum assunto relacionado à sua profissão que você gostaria de abordar com mais frequência?'},
+        {id:'s21', type:'long', q:'O que você gostaria que uma pessoa entendesse sobre a empresa ao entrar no seu Instagram pela primeira vez?'},
+        {id:'s22', type:'long', q:'Quais informações sobre a trajetória da empresa você considera importantes para apresentar ao público?'},
+        {id:'s23', type:'long', q:'Quais são os principais assuntos sobre regularização de veículos que você gostaria que aparecessem nos primeiros conteúdos? Liste até 5.'},
+        {id:'s24', type:'long', q:'Quais são as perguntas que você mais recebe de clientes ou pessoas próximas sobre sua área de atuação? Liste pelo menos 5, se possível.'},
+        {id:'s25', type:'long', q:'Quais erros, dúvidas ou interpretações equivocadas você percebe com frequência entre pessoas que precisam regularizar um veículo?'},
+        {id:'s26', type:'long', q:'Existe algum tema que você considera importante explicar ao público, mesmo que as pessoas ainda não saibam que precisam dessa informação?'},
+        {id:'s27', type:'long', q:'Existe algum assunto que você considera especialmente relevante para o momento atual da sua atuação?'},
+        {id:'s28', type:'long', q:'Você possui fotos profissionais que podem ser utilizadas nos primeiros conteúdos?', attach:true},
+        {id:'s29', type:'long', q:'Você possui outros registros que podem ser utilizados? Ex.: fotos de clientes com veículos já emplacados/regularizados, cases de atendimento, vídeos do processo, etc.', attach:true},
+        {id:'s30', type:'long', q:'Existe algum conteúdo ou informação sobre sua trajetória que você NÃO autoriza a publicação?'},
+        {id:'s31', type:'long', q:'Existe alguma percepção equivocada sobre sua área de atuação que você gostaria de ajudar a esclarecer por meio do conteúdo?'},
+        {id:'s32', type:'long', q:'Existe algum assunto relacionado à sua profissão que você gostaria de abordar com mais frequência?'},
       ]},
       {title:'Informações para o perfil', chapter:'Cap. VII', fields:[
-        {id:'s34', type:'short', q:'Qual telefone profissional deve ser disponibilizado no perfil?'},
-        {id:'s35', type:'short', q:'Qual e-mail profissional deve ser utilizado?'},
-        {id:'s36', type:'short', q:'Você possui endereço profissional que deseja divulgar?'},
-        {id:'s37', type:'long', q:'Existe alguma informação profissional que você considera indispensável na apresentação do perfil?'},
+        {id:'s33', type:'short', q:'Qual telefone profissional deve ser disponibilizado no perfil?'},
+        {id:'s34', type:'short', q:'Qual e-mail profissional deve ser utilizado?'},
+        {id:'s35', type:'short', q:'Você possui endereço profissional que deseja divulgar?'},
+        {id:'s36', type:'long', q:'Existe alguma informação profissional que você considera indispensável na apresentação do perfil?'},
       ]},
       {title:'Observações', chapter:'Cap. VIII', fields:[
-        {id:'s38', type:'long', q:'Existe alguma informação que você considera importante para entendermos seu trabalho e que não foi perguntada neste briefing?'},
-        {id:'s39', type:'long', q:'Existe alguma preocupação, restrição ou orientação específica que gostaria de deixar para a produção dos conteúdos?'},
+        {id:'s37', type:'long', q:'Existe alguma informação que você considera importante para entendermos seu trabalho e que não foi perguntada neste briefing?'},
+        {id:'s38', type:'long', q:'Existe alguma preocupação, restrição ou orientação específica que gostaria de deixar para a produção dos conteúdos?'},
       ]},
     ]
   },
@@ -600,12 +595,12 @@ const sections = [
     id:'site', label:'Site', num:'03',
     groups:[
       {title:'Sobre o site', chapter:'Cap. I', fields:[
-        {id:'site1', type:'long', q:'Se uma pessoa chegar ao site sem conhecer você, qual é a informação mais importante que ela precisa encontrar rapidamente?'},
-        {id:'site2', type:'long', q:'Existe alguma página que você gostaria que tivesse destaque especial?'},
+        {id:'site1', type:'long', q:'Se uma pessoa chegar ao site sem conhecer a AutoLegal, qual é a informação mais importante que ela precisa encontrar rapidamente?'},
+        {id:'site2', type:'long', q:'Existe alguma seção do site que você gostaria que tivesse destaque especial? Ex.: processo de regularização, veículos já emplacados, depoimentos de clientes, etc.'},
       ]},
       {title:'Conteúdo institucional', chapter:'Cap. II', fields:[
         {id:'site3', type:'radio', q:'Você possui algum texto institucional já pronto que gostaria de utilizar no site?', options:['Sim','Não'], attach:true},
-        {id:'site4', type:'radio', q:'Você possui materiais que possam auxiliar na produção dos textos do site? Ex.: apresentação profissional, currículo, materiais institucionais, textos anteriores, entrevistas, biografia etc.', options:['Sim','Não'], attach:true},
+        {id:'site4', type:'radio', q:'Você possui materiais que possam auxiliar na produção dos textos do site? Ex.: documentos, apresentações sobre como funciona o processo, etc.', options:['Sim','Não'], attach:true},
       ]},
       {title:'Serviços — informações técnicas', chapter:'Cap. III', fields:[
         {id:'site5', type:'long', q:'Para cada serviço que será apresentado no site (ex: emplacamento de veículo antigo, regularização documental, transferência, baixa, vistoria, etc.), quais informações devem ser explicadas ao visitante? Considere: quais demandas são atendidas, como funciona o processo, quais documentos ou requisitos são necessários, informações importantes que o público deve conhecer.'},
@@ -919,7 +914,7 @@ function attachEvents(){
     }
   });
 
-  ['meta_nome','meta_escritorio'].forEach(id=>{
+  ['meta_nome'].forEach(id=>{
     const el = document.getElementById(id);
     el.value = state[id] || '';
     el.addEventListener('input', ()=>{ state[id]=el.value; save(); });
@@ -942,7 +937,6 @@ function buildReportLines(){
   lines.push('BRIEFING — IDENTIDADE VISUAL, SOCIAL MEDIA & SITE');
   lines.push('Oquíron Digital');
   lines.push('Cliente: ' + (state.meta_nome||'—'));
-  lines.push('Escritório: ' + (state.meta_escritorio||'—'));
   lines.push('Data de exportação: ' + new Date().toLocaleDateString('pt-BR'));
   lines.push('='.repeat(60));
 
@@ -1021,7 +1015,6 @@ async function submitForm(){
     access_key: WEB3FORMS_ACCESS_KEY,
     subject: `Novo briefing recebido — AutoLegal — ${nome}`,
     from_name: nome,
-    escritorio: state.meta_escritorio || '—',
     message: lines.join('\n'),
   };
 
